@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace WebApi
 {
@@ -10,6 +11,9 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "dotnet 6 api", Version = "v1" });
+            });
         }
 
         // and configures the .NET request pipeline for the application in the Configure() method. Both methods are called by the .NET runtime when the app starts, 
@@ -18,6 +22,8 @@ namespace WebApi
         {
             app.UseRouting();
             app.UseEndpoints(x => x.MapControllers());
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
     }
 
